@@ -1,0 +1,40 @@
+\hrulefill
+
+% TODO: copy
+% TODO: Make more self explanatory
+% TODO: Make pretty!
+
+\begin{description} \item
+for \( number of training iterations \) do
+
+  \begin{description}
+  \item for \( k steps \) do
+
+    \begin{enumerate}
+
+    \item Sample minibatch of \( m \) noise samples \( \{z_1, ... ,z_m \} \) from noise prior \( p_g(z) \)
+    \item Sample minibatch of \( m \) noise samples \( \{x_1, ... ,x_m \} \) from data generation distribution \( p_d(x) \)
+    \item Update the discriminator by ascending its stochastic gradient:
+    \[
+      \nabla_{\theta_d} \sum_{i=1}^m \big[\log D(x_i) + \log ( 1 - D(G(z_i)) ) \big]
+    \]
+
+    \end{enumerate}
+
+  \item end for
+  \end{description}
+
+  \begin{enumerate}
+
+    \item Sample minibatch of \( m \) noise samples \( \{z_1, ... ,z_m \} \) from noise prior \( p_g(z) \)
+    \item Update the generator by descending its stochastic gradient:
+    \[
+      \nabla_{\theta_g} \sum_{i=1}^m \big[\log ( 1 - D(G(z_i)) ) \big]
+    \]
+
+  \end{enumerate}
+
+\item end for
+\end{description}
+
+\hrulefill
