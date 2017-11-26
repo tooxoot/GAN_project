@@ -1,14 +1,21 @@
-\hrulefill
-
 % TODO: copy
 % TODO: Make more self explanatory
 % TODO: Make pretty!
 
+\caption{ Training process of generative adversarial networks.}
+ \label{gan_algorithm_1}
+\begin{itemize}
+  \item Applying minibatch training for data sampling.
+  \item Using stochastic gradient descent to optimize the discriminator and generator.
+  \item Applying hyperparameter \( k \). Resulting in a relation  of \( k:1 \) training steps between the discriminator and the generator.
+\end{itemize}
+\hrulefill
+
 \begin{description} \item
-for \( number of training iterations \) do
+for \textit{ number of training iterations } do
 
   \begin{description}
-  \item for \( k steps \) do
+  \item for \textit{ k steps } do
 
     \begin{enumerate}
 
@@ -36,5 +43,3 @@ for \( number of training iterations \) do
 
 \item end for
 \end{description}
-
-\hrulefill

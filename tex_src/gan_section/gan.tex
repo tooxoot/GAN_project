@@ -3,13 +3,14 @@
 Appart from classification and data prognosis there is the field of data generation.
 The different networks existing for this task mostly consist of nondifferentiable functions, thus the function's gradient has to be estimated to use backpropagation during the network's training process.
 This estimation is one of the main causes for over- and underfitting in such networks \cite{1}.
+% TODO ckeck citation here!
 \{Could add information on some of these Networks? See book chapter 20\}
 \\
 \\
 Goodfellow et al. \cite{1} presented a different approch to tackle the generation of data according to a set of examples.
 The method called generative adversarial networks (GAN) connects the output of a differentiable data generating network to the input of a drscriminative multilayer perceptron.
 Connecting the networks' in- and outputs in such fashion, it is now possible to train the generator by minimizing the probability that the attached discriminator is able to correctly distinguish between example- and artificially generated data.
-The fact that both connected networks are based on differentiable functions makes the learning phase feasable for backpropagation.
+The fact that both connected networks are based on differentiable functions makes the learning phase feasable for backpropagation. Therefore GANs are independent of error-prone gradient estimations.
 
 
   \subsection{Model Definition}
@@ -24,9 +25,10 @@ The fact that both connected networks are based on differentiable functions make
   \\
   Regarding the goal of learning the generator's distribution \( p_g \) over the data space, the GAN's learning process can be described as a competition of \( G \) and \( D \) in a two player minimax game using the value function \( V(D,G) \) such that the descriminators payoff is calculated by:
 
-  \[
+  \begin{equation}
+  \label{gan_equation_1}
   \underset{g}{min} \underset{d}{max} V(G,D) =  \mathbb{E}_{x \sim p_d}[\log D(x; \theta_d)] + \mathbb{E}_{z \sim p_z}[\log(1 - D(G(z; \theta_g); \theta_d))]
-  \]
+  \end{equation}
 
   \cite[Equation (1)]{1}
 
@@ -36,31 +38,33 @@ The fact that both connected networks are based on differentiable functions make
   In other words we train the discriminator to be able to sort out artificial samples while at the same time training the generator to fool the discriminator with its immitations.
   This process results in an equilibrium where even a maximally trained discriminator can not distinguish generated from original samples thus assigning \( D(x) = 1/2 \) to every input.
   When this happens we reached the point where the generated and the trainning distribution match such that \( p_g = p_d \) \cite{1}.
-
+  \\
+  \\
   Implementation wise it is only possible to approach the training procedure with an iterative numerical process.
-  This approach is shown in Algorithm 1:
+  This approach is shown in \cref{gan_algorithm_1}.
+  \\
+  \\
 
-    \pagebreak
-    % \subsubsection{Algorithm 1:}
-    \textbf{Algorithm 1:}
-    \import{./}{gan_section/gan_algorithm_1}
-    \cite[Algorithm (1)]{1}
-  \\
-  \\
-  As stated in algorithm 1 the inner loop does not train the discriminator to completion but limits the learning process by applying a constraining hyperparameter \( k \).
+    % NOTE The algothim maye not shows directly under previous paragraph
+    \begin{algorithm}
+      \import{./}{gan_section/gan_algorithm_1}
+      \cite[Algorithm (1)]{1}
+    \end{algorithm}
+
+  As stated in \cref{gan_algorithm_1} the inner loop does not train the discriminator to completion but limits the learning process by applying a constraining hyperparameter \( k \).
   A completely trained perceptron \( D \) would result in overfitting on the training distribution \( p_d \) focusing the generator on creating exaxt copies of the training examples.
-  Therefore the algorithm keeps \( D \) near its optimum by alternating between training \( D \) for \( k \) steps and training G for one step.
+  Therefore the algorithm keeps \( D \) near its optimum by alternating between training \( D \) for \( k \) steps and training G for one step \cite{1}.
   Regarding the network's early training phase, \( \log ( 1 - D(G(z)) ) \) could saturate in cases where \( D \) confidently assigns correct labels to all data samples.
-  Thus maximizing \( \log D(G(z)) \) provides significantly higher gradients than minimizing \( \log( 1 - D(G(z)) ) \) without harming the algorithm's dynamics. In this case the training process will maximize the probablility that the discriminator makes a mistake rather than minimizing its probability of assigning correct values \cite{1}.
+  Thus early on maximizing \( \log D(G(z)) \) provides significantly higher gradients than minimizing \( \log( 1 - D(G(z)) ) \) without harming the algorithm's dynamics. In this case the training process will maximize the probablility that the discriminator makes a mistake rather than minimizing its probability of assigning correct values \cite{1}.
 
   \subsection{Theoretical Results and Boundries}
 
-  When optimizing in the space of probability distributions Goodfellow et al. \cite{1} showed that algorithm 1 maximizes equation 1 such that \( p_g \) converges to \( p_g \).
+  When optimizing in the space of probability distributions Goodfellow et al. \cite{1} showed that \cref{gan_algorithm_1} maximizes \cref{gan_equation_1} such that \( p_g \) converges to \( p_g \).
   If the distributions are represented by parameterized neural networks however the convergence of \( p_g \) is not guaranteed.
   The generated distribution's representation \( G(x; \theta _g) \) limits the resulting \( p_g \) to a restricted family of probability distrebutions such that \( \underset{d}{max}( V(D,G) ) \) is not guaranteed to be convex.
   \\
   \\
   Possible equilibria in such a scenario are saddle points of \( V(D,G) \) where a local maximum in the first dimension and a local minimum in the second is reached.
-  For those points the alternation seen in algorithm 1 could result in a loop where the gradiant based optimization circulates around a saddle without converging to it \cite{2}.
+  For those points the alternation seen in \cref{gan_algorithm_1} could result in a loop where the gradiant based optimization circulates around a saddle without converging to it \cite{2}.
   Goodfellow et al. \cite{3} idetified this behaviour as one possible source of underfitting in existing GAN implementations.
   Even if multilayer perceptrons restrict the space of possible distrebutions and therefore do not give any theoretical guarantees for convergence, the performance of approaches using multilayer perceptrons suggests that they are a legitimate model to use. \cite{1}
