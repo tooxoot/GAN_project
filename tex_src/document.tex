@@ -1,87 +1,104 @@
-\documentclass[12pt]{article}
+\input{document_configuration/config}
 
-\title{\textbf{Generative Adversarial Networks for Text Generation}}
-\author{Sven Vaupel}
-\date{xx.xx.2017}
-
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amstext}
-\usepackage{amsfonts}
-\usepackage{mathrsfs}
-\usepackage{import}
-\usepackage{algorithm}
-\usepackage{cleveref}
-
-% TODO: Plugins anpassen!
-
-\crefname{algorithm}{Algorithm}{Algorithms}
-\crefname{equation}{Equation}{Equations}
-
+% ############################# DOCUMENT ##############################
 \begin{document}
+\shorthandoff{"} % deactivates shorthand "a for a umlaut (ä) (necessary if quotation marks are used e.g. in source code)
+\setcounter{secnumdepth}{3} % numbering up to three level
+%\sloppy % LaTeX will always try to create justified text (this may result in bigger gaps between words)
 
-\maketitle
-\setlength{\parindent}{0cm}
+% ############################# FRONTPAGE #############################
+\input{pre_content/frontpage} % calls \pagestyle{empty}
+%\onehalfspacing % set one-and-a-half line spacing after frontpage was included
+\setstretch{1.1} % a value of 1.25 refers to one-and-a-half spacing and 1.667 to double-spacing (for 10pt)
+                 % (LaTeX calculates with a leading of 1.2 at a point size of 10pt: 1.2 * 1.25 = 1.5 line spacing)
 
-\section{Overview}
+% ############################# HEADLINES ######################
+\renewcommand{\headfont}{\small} % small headline font size to fit even long headlines onto the page
 
-Giving a basic view over what is planned. Especially what I plan to describe before I tackle GANs!
+\clearscrheadfoot
+\ohead[\rightline{\thepage}]{\rightline{\thepage}} % headline with number of page on the right hand side
+\automark{chapter}
 
-\begin{enumerate}
-  \item Notation ("copy" from \cite{2})
+\pagenumbering{roman} % roman numbering: I, II, III, IV, ...
 
-  \item Neural Networks \\
-    What are Neural Networks and how do they work. A brief introduction.
+\pagestyle{scrheadings} % defines whether headlines are printed and how they are styled
 
-  \begin{enumerate}
+% ############################## ABSTRACT #############################
 
-    \item Use cases \\
-      Giving a quick overview of Regression and Classification using simple examples.
+% \input{08-abstract}
 
-    \item Important terms \\
-      Giving a quick overview over the terminology used specifically in machine learning
+% ########################### TOC + ACRONYMS ##########################
+\setcounter{chapter}{0}
 
-      \begin{enumerate}
+\setcounter{tocdepth}{2} % table of contents depth: 3 means e.g. 4.3.2.1 will be listed, whereas 2 will lead to 4.3.2. as the deepest entry, etc.
+{
+\sloppy
+\tableofcontents
+}
 
-        \item Hyperparameter \\
-          The Hyperparameters' values are set prior to the actual training process.
+% TODO Readd
+% \listoffigures
 
-        \item Stochastic gradient
+% \listoftables
 
-        \item Over- / Underfitting
+% \input{03-abbreviations}
+\clearpage % Clear page to get the arabic page counting on the next page
 
-      \end{enumerate}
+% ########################## LAYOUT + DESIGN ##########################
 
-    \item Important concepts \\
-      Concepts which are important for the explanation of later topics
+\clearscrheadfoot % cleans footer from previous configurations
+\ihead[]{\leftline{\leftmark}} % current section and chapter heading in header on the left
+\ohead[\rightline{\thepage}]{\rightline{\thepage}} % page number in header on the right
+\automark{chapter} % for creating the current section/chapter in the heading
 
-    \begin{enumerate}
+\pagenumbering{arabic} % arabic numbering: 1, 2, 3, 4, ...
+\setcounter{page}{1}
 
-      \item Backpropagation \\
-        Why is it Important and what are the requirements.
+\addtokomafont{chapter}{\LARGE}
+\addtokomafont{section}{\Large}
+\addtokomafont{subsection}{\large}
+\addtokomafont{paragraph}{\itshape}
 
-      \item Minibatch Training
+\renewcommand{\thepart}{}%\Alph{part}}
+\renewcommand{\thesubsubsection}{\Roman{subsubsection}}
 
-      \item Dropout
+\renewcaptionname{ngerman}{\partname}{}
 
-      \item Latent space? \\
-        Could be of interest for some of the papers.
-        What Information can be drawn from it. Showing some examples.
+% ############################## CONTENT ##############################
+\input{overview}
+\input{gan_section/gan}
 
-    \end{enumerate}
+% \input{10-intro}
+% \input{20-test}
+% % ...more inputs
+% %\input{99-abc}
+% % ...
+% \input{80-zusammenfassung}
 
-  \end{enumerate}
+% ########################### BIBLIOGRAPHY ############################
 
-  \item GAN
-\end{enumerate}
+% \bibliography{bibliography.bib}{}
+% \bibliographystyle{IEEEtran}
+{
+\sloppy
+\printbibliography[title={\label{chap:references}Literaturverzeichnis}]{}
+}
 
+% ############################# APPENDIX ##############################
+% TODO Add again
+% \part*{Anhang}
+% \newcounter{chapterAppendix}
+% \setcounter{chapterAppendix}{1}
+% \renewcommand{\thechapter}{\Alph{chapterAppendix}}
+% \input{90-appendix}
 
-\import{sections/}{gan_section/gan}
+% ############################ DECLARATION ############################
 
-% examples
-% \emph{emph}\footnote{footnote}
-% $\rightarrow$
+% declaration of academic honesty / Eidesstattliche Erklärung
+% \input{02-declaration}
+%
+% \clearpage
 
-\bibliography{bibliography.bib}{}
-\bibliographystyle{IEEEtran}
+% #####################################################################
+
 \end{document}

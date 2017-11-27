@@ -1,0 +1,174 @@
+% ########################### DOCUMENTCLASS ###########################
+
+\documentclass[paper=a4, % equivalent to a4paper
+               headsepline, % line after headline
+               fontsize=12pt,
+               headings=small,
+               %draft, % debug mode
+               oneside, % one sided document: no alternating page number positions and margins (equivalent to twoside=false)
+               ngerman, % new German spelling rules (important for hyphenation)
+               captions=tableheading, % within table environment: put \caption{} text above table
+               toc=bibliographynumbered, % adds bibliography to table of contents (numbered like chapters; unnumbered with toc=bibliography)
+               1.5headlines]
+               {scrreprt}
+
+% ######################### PACKAGES + CONFIG #########################
+
+\usepackage[T1]{fontenc} % German umlauts, special chars, etc.
+\usepackage[utf8]{inputenc} % input encoding (preferably utf8 with utf8 encoding within your editor! ansinew, latin1, etc. are also possible but require you to use cumbersome workarounds to write German umlauts e.g. "u for writing an ü)
+\usepackage[ngerman]{babel} % new German spelling rules (important for hyphenation)
+\usepackage[german]{varioref} % for commands like \vref to create references like "...see figures 3.4 to 3.6 on pages 23–24..."
+
+
+% special symbols
+\usepackage{pifont}
+
+% strings have to be entered after utf8 has been set as input encoding
+
+% strings for the frontpage
+\newcommand{\documentType}{Seminararbeit} % Art der Arbeit: Master-/Bachelor-/Seminararbeit/etc.
+\newcommand{\documentHeading}{Generative Adverserial Networks for Text Generation}
+\newcommand{\documentLocation}{Essen} % also used as location for declaration of academic honesty / Ort in Eidesstattlicher Erklärung
+\newcommand{\documentDate}{\today}%10.\,04.\,2014} % also used as date for declaration of academic honesty / Datum in Eidesstattlicher Erklärung
+
+% PDF document metadata (the following strings must not contain line breaks, non-breaking spaces, etc.)
+\newcommand{\documentPDFauthor}{Sven Vaupel}
+\newcommand{\documentPDFtitle}{\documentHeading}
+
+
+
+\usepackage{acronym} % enables acronym environment ftp://ftp.tu-chemnitz.de/pub/tex/macros/latex/contrib/acronym/acronym.pdf
+                     % http://de.wikibooks.org/wiki/LaTeX-W%C3%B6rterbuch:_Abk%C3%BCrzungsverzeichnis
+
+\usepackage{hyphenat} % hyphenation
+\hyphenation{} % special hyphenation for certain words (you can also simply add words that must not be hyphenated)
+
+\usepackage{eurosym} % Euro currency symbol: use \EUR{10} or 10 \euro (\EUR{10} recommended because of correct space between number and symbol)
+\DeclareUnicodeCharacter{20AC}{\euro} % UTF-8: enables use of Euro currency sign € (cf. http://www.theiling.de/eurosym.html)
+
+\usepackage{amsmath, amsthm, amssymb} % AMS math symbols and theorem boxes; configure via \newtheoremstyle (cf. ftp://ftp.ams.org/pub/tex/doc/amscls/amsthdoc.pdf)
+\usepackage{mathtools}
+
+\usepackage[top=2.5cm, bottom=2cm, left=5cm, right=1.4cm, headsep=1cm, footskip=1cm]{geometry} % borders
+%\renewcommand{\restoregeometry}{\newgeometry{top=2.5cm, bottom=2cm, left=5cm, right=1.4cm, headsep=1cm, footskip=1cm}}
+    % examples from http://www.artofproblemsolving.com/Wiki/index.php/LaTeX:Layout
+    % headsep  = Distance from bottom of header to the body of text on a page.
+    % footskip = Distance from bottom of body to the bottom of the footer.
+\usepackage{scrpage2} % header/footer http://latex.tugraz.at/latex/tutorial
+
+\usepackage{setspace} % enables line spacing via \singlespacing, \onehalfspacing, \doublespacing or \setstretch{<factor>} for custom spacing
+\usepackage{verbatimbox}
+\usepackage{rotating} % rotate objects e.g. with \rotatebox{90}{}; also used for tables in landscape format with sidewaystable environment
+\usepackage{tabularx}
+\usepackage{calc}
+\usepackage{array}
+\usepackage[font={bf, small, sf}]{caption} % customize the captions in floating environments
+\usepackage{subcaption}
+\usepackage[final]{pdfpages} % inclusion of external PDF documents (options e.g.: selected pages including a blank one: pages={3,{},8-11,15} )
+\usepackage{multirow} % span column over multiple rows
+\usepackage{booktabs} % table rules with various thicknesses (\toprule, \midrule, \bottomrule, etc.)
+\usepackage{longtable, tabu} % tables that continue to the next page; http://mirror.unl.edu/ctan/macros/latex/contrib/tabu/tabu.pdf
+\usepackage{ltcaption} % caption for longtable
+\usepackage{multicol} % add areas with multiple columns
+\usepackage{enumitem} % prefix for enumerations
+\setlistdepth{9} % enumitem: enable long nested lists
+\setlist[itemize,1]{label=$\bullet$}
+\setlist[itemize,2]{label=$\bullet$}
+\setlist[itemize,3]{label=$\bullet$}
+\setlist[itemize,4]{label=$\bullet$}
+\setlist[itemize,5]{label=$\bullet$}
+\setlist[itemize,6]{label=$\bullet$}
+\setlist[itemize,7]{label=$\bullet$}
+\setlist[itemize,8]{label=$\bullet$}
+\setlist[itemize,9]{label=$\bullet$}
+\renewlist{itemize}{itemize}{9}
+
+%\bibliographystyle{alpha} % examples: http://amath.colorado.edu/documentation/LaTeX/reference/faq/bibstyles.html
+%\bibliographystyle{dinat} % bibliographies following the german norm DIN 1505
+\usepackage[bibstyle=numeric,
+            citestyle=numeric,
+            backend=biber,
+            maxcitenames=2,
+            maxbibnames=100,
+            sortcites=true,
+            doi=false,
+            isbn=false,
+            url=false]{biblatex} % bibliography package; replaces old natbib package; numeric = Reference in brackets [1].
+                                        % remember to translate via "biber file.bcf" (or configure LaTeX editor)
+                                        % very useful for printing parts of the bibliography within the document
+                                        % see http://www.komascript.de/node/1220 for filter examples
+                                        % http://tex.stackexchange.com/questions/32851/biblatex-combine-filters
+                                        % http://biblatex.dominik-wassenhoven.de/download/DTK-2_2008-biblatex-Teil1.pdf
+%\nocite{*} % display all entries in bibliography regardless of whether they have been cited or not
+\DefineBibliographyStrings{ngerman}{andothers={et~al\adddot}} % "u.a." zu "et al."
+
+\usepackage[german=quotes]{csquotes} % dynamic and configurable quotationmarks that \enquote{also support \enquote{nested} quotations.}
+
+
+\usepackage{lmodern} % Latin Modern fonts
+%\usepackage{picins} % insert pictures into paragraphs
+
+\usepackage{float}
+\usepackage{wrapfig} % wrap text around figures with wrapfigure environment (has to be loaded right after float package)
+\restylefloat{figure} % float only at the place where you define it (without LaTeX moving it)
+\floatstyle{plain} % standard: no box is drawn
+
+
+\usepackage{color} % define own colors: \definecolor{MyColor}{rgb}{0.37,0.17,0.97}
+\usepackage{xcolor}
+\usepackage{colortbl} % color tables and cells
+\usepackage{adjustbox} % http://mirror.unl.edu/ctan/macros/latex/contrib/adjustbox/adjustbox.pdf
+
+\usepackage{framed} % framed or shaded regions that can break across pages
+
+\usepackage{graphicx} % enhanced support for graphics
+
+\usepackage{url} % e.g. \url{http://www.example.com}
+
+\usepackage{fullwidth} % full width environment to display something beyond the text width http://www.ctan.org/tex-archive/macros/latex/contrib/fullwidth
+
+
+% hyperref package has to be loaded after the float package
+\usepackage[%pdftex=true, % only if you use pdftex
+            hypertexnames=true,
+            pdfstartview={FitH}, % fit the width of the page to the window
+            colorlinks=true,
+            linkcolor=black,
+            citecolor=black,
+            filecolor=black,
+            urlcolor=black]{hyperref} % clickable urls in PDF: \href{URL}{text}
+\hypersetup{% configure PDF metadata with \hypersetup command to pass UTF-8 characters (e.g. umlauts) properly
+            pdftitle={\documentPDFtitle}, % title (PDF metadata)
+            pdfauthor={\documentPDFauthor}, % author (PDF metadata)
+}
+\urlstyle{tt} % font style of url: rm = CM Roman; sf = CM Sans Serif; tt = CM Typewriter; same = selected font
+
+
+% Pseudo Sourcecode Formatting with algorithmicx (http://ctan.org/pkg/algorithmicx)
+%   Packages have to be loaded after float and hyperref
+%   Alternative: algorithm2e which cannot split code on multiple pages but has nice vertical lines
+%   Get vertical lines in algorithmicx as seen in algorithm2e: http://tex.stackexchange.com/questions/110431/ploblems-with-vertical-lines-in-algorithmicx
+%   Chaining procedure calls: http://tex.stackexchange.com/questions/16046/how-to-nest-call-in-algorithmicx
+\usepackage{algpseudocode} % part of algorithmicx
+\usepackage[Algorithmus]{algorithm} % float environment algorithm, parameter is the prefix title in every algorithm box (e.g. "Algorithm 1")
+
+
+% MY packages
+\usepackage{amstext}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{cleveref}
+\crefname{algorithm}{Algorithm}{Algorithms}
+\crefname{equation}{Equation}{Equations}
+
+
+% margin notes
+\setlength{\marginparwidth}{1.2in} % width of margin notes
+\reversemarginpar % margin notes (added via \marginpar{margin text}) are placed on the opposite side (left/inside instead of right/outside)
+
+
+% load custom commands and strings
+\input{document_configuration/config_commands}
+
+
+\addbibresource{bibliography.bib} % ./ for local folder is very important!
