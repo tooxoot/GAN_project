@@ -1,4 +1,6 @@
 /00_lib_sources
 **/.tex.swp
 *synctex.gz
+*.ipynb_checkpoints
 /00_paluno_template
+**/__pycache__
