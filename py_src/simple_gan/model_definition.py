@@ -29,8 +29,8 @@ def build_fully_connected_network(network_input,
 def build_training_model(generator_arguments,
                          discriminator_arguments):
     _, generator_output = build_fully_connected_network(*generator_arguments, reuse_weights=False)
-    _, d_original_data = build_fully_connected_network(*discriminator_arguments, reuse_weights=False)
-    _, d_immitated_data = build_fully_connected_network(generator_output, *discriminator_arguments[1:], reuse_weights=True)
+    d_original_data, _ = build_fully_connected_network(*discriminator_arguments, reuse_weights=False)
+    d_immitated_data, _ = build_fully_connected_network(generator_output, *discriminator_arguments[1:], reuse_weights=True)
 
     loss_originals = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(
                     logits=d_original_data,
