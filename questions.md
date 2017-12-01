@@ -5,9 +5,7 @@ prior pg(z)? Should'nt it be pz(z)?!
   None
  for ba kluver als zweit
 3. Why has the appliance of relu such a huge impact?
-  
+4. Why use sigmoid on G and layer_out on D???  
 
 Meeting 28.11.17
 to next sequenzial data
-
-
