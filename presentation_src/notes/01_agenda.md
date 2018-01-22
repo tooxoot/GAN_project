@@ -1,0 +1,12 @@
+## Agenda
+- Machine Learning
+- Neural Networks
+- Generative Tasks
+- GANs
+  - Purpose
+  - Model Structure
+  - Convergence
+- SeqGan
+  - Sequencial vs. Result Approach
+  - Model Structure
+  - Results
