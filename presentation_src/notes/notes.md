@@ -180,8 +180,6 @@ Ok Now that we have the Background check out of the way we'll have a quick look 
 
 # 18 (TG - The Problem)
 
->> TODO complications one down
-
 - As seen before our goal is to produce samples close to our reference data wich in this case means
 - `x`
 - Generating Text that resembles natural language.
@@ -217,8 +215,6 @@ Ok Now that we have the Background check out of the way we'll have a quick look 
 - To evaluate what word to choose next we thus have to evaluate both the current content and possible outcomes.
 
 # 19 (SeqGan - Model)
-
->> .1 and .2 directly on slide
 
 - One GAN architecture that tries to tackle this evaluation is the so called SeqGAN model standing for 'Sequencial GAN'.
 - `x`
